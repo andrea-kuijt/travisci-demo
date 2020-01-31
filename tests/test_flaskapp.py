@@ -1,7 +1,5 @@
 import unittest,json
-
 from main import app
-
 
 class FlaskTestCase(unittest.TestCase):
     def setUp(self):
@@ -18,8 +16,17 @@ class FlaskTestCase(unittest.TestCase):
         resp = json.loads(response.data.decode())
         self.assertEqual(resp['answer'],35,'Multiply endpoint failed known answer 7*5 = 35')
 
-    # TODO DEFINE TWO MORE TESTS ON THE END POINTS
+    def test_touppercase(self):
+        response = self.app.get('/touppercase?s=xomnia')
+        resp = response.data.decode() #because main.py returns string, json.loads is not ne
+        self.assertEqual(resp, 'XOMNIA', 'to uppercase failed')
 
+    def test_helloworld(self):
+        response = self.app.get('/')
+        resp = response.data.decode()
+        self.assertEqual(resp, "Hello World!", "This failed!")
+
+    # TODO DEFINE TWO MORE TESTS ON THE END POINTS
 
 if __name__ == '__main__':
     unittest.main()
